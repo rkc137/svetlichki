@@ -14,7 +14,7 @@ public:
     Winhandle(Winhandle&&) = delete;
     Winhandle& operator=(Winhandle&&) = delete;
 
-    bool is_should_close;
+    bool is_should_close();
 private:
     struct Wdata;
     std::unique_ptr<Wdata> wdata;

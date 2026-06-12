@@ -17,7 +17,7 @@ int main()
         while(const auto event = window.pollEvent())
             if(event->is<sf::Event::Closed>())
                 window.close();
-        if(winhandle.is_should_close)
+        if(winhandle.is_should_close())
             window.close();
         static unsigned int angl = 0;
         angl++;

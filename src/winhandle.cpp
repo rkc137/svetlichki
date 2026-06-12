@@ -14,10 +14,7 @@ struct Winhandle::Wdata
 LRESULT CALLBACK TrayProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp,
                            UINT_PTR, DWORD_PTR data)
 {
-    auto* is_closing = reinterpret_cast<bool*>(data);
-    if(msg == WM_APP + 1)
-        if(lp == WM_LBUTTONUP)
-            *is_closing = true;
+    *reinterpret_cast<bool*>(data) = msg == WM_APP + 1 && lp == WM_LBUTTONUP;
     return DefSubclassProc(hwnd, msg, wp, lp);
 }
 

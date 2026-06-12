@@ -23,12 +23,14 @@ struct Winhandle::Wdata
 Winhandle::Winhandle(sf::RenderWindow &window) : window(window), wdata(std::make_unique<Wdata>())
 {
     HWND hwnd = window.getNativeHandle();
+    // oreder of these calls is important for some reason
     SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-    SetWindowLong(hwnd, GWL_EXSTYLE,
-    GetWindowLong(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED | WS_EX_TRANSPARENT);
-    SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 0, LWA_COLORKEY);
-    SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) & ~WS_EX_APPWINDOW);
     SetWindowSubclass(hwnd, TrayProc, 0, reinterpret_cast<DWORD_PTR>(this));
+    SetWindowLong(hwnd, GWL_EXSTYLE,
+        (GetWindowLong(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED | WS_EX_TRANSPARENT) & ~WS_EX_APPWINDOW
+    );
+    SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 0, LWA_COLORKEY);
+    SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) | WS_EX_TOOLWINDOW);
 
     auto &nid = wdata.get()->nid;
     wdata->nid = {

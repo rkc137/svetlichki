@@ -16,6 +16,7 @@ option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 add_executable(svetlichki
     src/main.cpp
     src/winhandle.cpp
+    src/Entity.cpp
 )
 
 target_link_libraries(svetlichki PRIVATE SFML::Graphics SFML::Window SFML::System)

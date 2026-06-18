@@ -48,9 +48,13 @@ public:
                 };
             
             texture.animations_lengths = image["anim_lens"].get<std::vector<int>>();
+            
+            bool is_smooth = true;
+            if(auto it = image.find("is_pixel"); it != image.end())
+                is_smooth = it->get<bool>();
+            texture.setSmooth(is_smooth);
+            
             textures.push_back(std::move(texture));
         }
     }
-private:
-
 };

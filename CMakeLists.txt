@@ -17,6 +17,7 @@ add_executable(svetlichki
     src/main.cpp
     src/winhandle.cpp
     src/Entity.cpp
+    src/res.cpp
 )
 
 target_link_libraries(svetlichki PRIVATE SFML::Graphics SFML::Window SFML::System)

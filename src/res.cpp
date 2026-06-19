@@ -1,6 +1,6 @@
 #include "res.hpp"
 
-float res::get_tgt_sprite_size() const
+float res::get_tgt_sprite_size()
 {
     return tgt_sprite_size;
 }

@@ -26,6 +26,6 @@ public:
     };
     inline static std::vector<Texture> textures;
 
-    static float get_tgt_sprite_size() const;
+    static float get_tgt_sprite_size();
     static void load(sf::Vector2u window_size, float ratio = .1f);
 };

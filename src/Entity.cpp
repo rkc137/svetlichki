@@ -3,17 +3,16 @@
 Entity::Entity(const res::Texture &texture)
  : texture(texture), sprite(texture, {{0, 0}, {texture.frame_size.x, texture.frame_size.y}})
 {
-    sprite.setOrigin(sf::Vector2f(texture.frame_size.x / 2, texture.frame_size.y / 2));
-    sprite.setScale({2.5, 2.5});
+    auto [x, y] = texture.frame_size;
+    sprite.setOrigin(sf::Vector2f(x / 2, y / 2));
+    auto s = res::get_tgt_sprite_size() / std::max(x, y);
+    sprite.setScale({s, s});
     set_animation(0);
 }
 
 void Entity::update()
 {
-    move({
-        (rand() % 20 - 10) / 10.f,
-        (rand() % 20 - 10) / 10.f
-    });
+    move(sf::Vector2f{1.f, 0}.rotatedBy(sf::degrees(rand() % 360)));
     animation_update();
 }
 

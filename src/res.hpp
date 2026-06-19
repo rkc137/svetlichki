@@ -15,6 +15,7 @@ class res
 {
 private:
     inline static const fs::path folder = "../res";
+    inline static float tgt_sprite_size = 0.f;
 public:
     res() = delete;
 
@@ -25,8 +26,16 @@ public:
     };
     inline static std::vector<Texture> textures;
 
-    static void load()
+    static float get_tgt_sprite_size()
     {
+        return tgt_sprite_size;
+    }
+
+    static void load(sf::Vector2u window_size, float ratio = .1f)
+    {
+        auto [w, h] = window_size;
+        tgt_sprite_size = std::max(w, h) * ratio;
+
         std::ifstream ifs(folder / "config.json");
         if(!ifs.is_open())
             throw std::runtime_error("failed to open config");

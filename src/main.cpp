@@ -1,5 +1,7 @@
+#include <list>
+
 #include "winhandle.hpp"
-#include "res.hpp"
+#include "Entity.hpp"
 
 int main()
 {
@@ -10,16 +12,19 @@ int main()
     window.setFramerateLimit(60);
     auto winhandle = Winhandle{window};
 
-    res::load();
+    res::load(window.getSize());
 
-    sf::Texture texture("../res/svet.png");
-    sf::Sprite svet(texture);
+    std::vector<Entity> entitys;
     {
-        auto [w, h] = texture.getSize();
-        svet.setOrigin({w / 2.f, h / 2.f});
-        // auto scale = std::max(w, h)
-        svet.setScale({0.5, 0.5});
-        svet.setPosition({100, 100});
+        auto [x, y] = static_cast<sf::Vector2i>(window.getSize());
+        for(auto &texture : res::textures)
+        for(int i = 0; i < 3; i++)
+        {
+            auto& e = entitys.emplace_back(texture);
+            e.set_animation(i % texture.animations_lengths.size());
+            sf::Vector2i pos{rand() % x, rand() % y};
+            e.setPosition(static_cast<sf::Vector2f>(pos));
+        }
     }
 
     while(window.isOpen())
@@ -30,7 +35,11 @@ int main()
         if(winhandle.is_should_close())
             window.close();
         window.clear();
-        window.draw(svet);
+        for(auto &e : entitys)
+        {
+            e.update();
+            window.draw(e);
+        }
         window.display();
     }
     return 0;

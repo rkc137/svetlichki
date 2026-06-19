@@ -21,7 +21,9 @@ add_executable(svetlichki
 )
 
 target_link_libraries(svetlichki PRIVATE SFML::Graphics SFML::Window SFML::System)
-
+# set_target_properties(svetlichki PROPERTIES
+#     WIN32_EXECUTABLE TRUE
+# )
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     target_link_options(svetlichki PRIVATE -mwindows -static)
     set_target_properties(svetlichki PROPERTIES

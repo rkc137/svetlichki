@@ -3,8 +3,12 @@
 #include "winhandle.hpp"
 #include "Entity.hpp"
 
+int main();
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) { return main(); }
+
 int main()
 {
+    FreeConsole();
     sf::RenderWindow window(
         sf::VideoMode::getFullscreenModes().front(),
         "svetlichki", sf::Style::None
@@ -44,14 +48,22 @@ int main()
         if(res::gis_rgba_important)
         {
             render_texture.clear(sf::Color::Transparent);
-            for(auto &e : entitys) { e.update(); render_texture.draw(e); }
+            for(auto &e : entitys)
+            {
+                e.update();
+                render_texture.draw(e);
+            }
             render_texture.display();
             winhandle.update_render(render_texture);
         }
         else
         {
             window.clear(sf::Color::Black);
-            for(auto &e : entitys) { e.update(); window.draw(e); }
+            for(auto &e : entitys)
+            {
+                e.update();
+                window.draw(e);
+            }
             window.display();
         }
     }

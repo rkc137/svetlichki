@@ -7,12 +7,34 @@ Entity::Entity(const res::Texture &texture)
     sprite.setOrigin(sf::Vector2f(x / 2, y / 2));
     auto s = res::get_tgt_sprite_size() / std::max(x, y);
     sprite.setScale({s, s});
+    state = State::moving;
     set_animation(0);
 }
 
 void Entity::update()
 {
-    move(sf::Vector2f{1.f, 0}.rotatedBy(sf::degrees(rand() % 360)));
+    switch(state)
+    {
+    case State::rest:
+        tgt_point = {
+            static_cast<float>(rand() % res::get_wsize<int>().x),
+            static_cast<float>(rand() % res::get_wsize<int>().y)
+        };
+        state = State::moving;
+    break;
+    case State::moving:
+    {
+        auto tgt = tgt_point - getPosition();
+        if(tgt.length() < 1.f)
+            state = State::rest;
+        move(tgt.normalized() * 1.f);
+        if(texture.is_top_down)
+            sprite.setRotation(tgt.angle() + sf::degrees(90));
+        break;
+    }
+    default:
+    }
+    set_animation(static_cast<int>(state) % texture.animations_lengths.size());
     animation_update();
 }
 

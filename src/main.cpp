@@ -18,11 +18,15 @@ int main()
     {
         auto [x, y] = static_cast<sf::Vector2i>(window.getSize());
         for(auto &texture : res::textures)
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < texture.animations_lengths.size(); i++)
         {
             auto& e = entitys.emplace_back(texture);
-            e.set_animation(i % texture.animations_lengths.size());
-            sf::Vector2i pos{rand() % x, rand() % y};
+            e.set_animation(i);
+            int tgtss = res::get_tgt_sprite_size();
+            sf::Vector2i pos{
+                rand() % (x - tgtss) + tgtss,
+                rand() % (y - tgtss) + tgtss
+            };
             e.setPosition(static_cast<sf::Vector2f>(pos));
         }
     }

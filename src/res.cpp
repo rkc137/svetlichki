@@ -1,9 +1,5 @@
 #include "res.hpp"
 
-float res::get_tgt_sprite_size()
-{
-    return tgt_sprite_size;
-}
 
 void res::load(sf::Vector2u wsize, float ratio)
 {
@@ -15,6 +11,9 @@ void res::load(sf::Vector2u wsize, float ratio)
     if(!ifs.is_open())
         throw std::runtime_error("failed to open config");
     auto config = json::parse(ifs);
+
+    if(auto it = config.find("is_rgba_important"); it != config.end())
+        is_rgba_important = it->get<bool>();
 
     for(auto &image : config["images"])
     {

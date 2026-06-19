@@ -9,10 +9,12 @@ int main()
         sf::VideoMode::getFullscreenModes().front(),
         "svetlichki", sf::Style::None
     );
-    window.setFramerateLimit(60);
-    auto winhandle = Winhandle{window};
-
     res::load(window.getSize());
+
+    window.setFramerateLimit(60);
+    auto winhandle = Winhandle{window, res::gis_rgba_important};
+    sf::RenderTexture render_texture{sf::VideoMode::getFullscreenModes().front().size};
+    auto& render_target = window;
 
     std::vector<Entity> entitys;
     {
@@ -22,7 +24,7 @@ int main()
         {
             auto& e = entitys.emplace_back(texture);
             e.set_animation(i);
-            int tgtss = res::get_tgt_sprite_size();
+            int tgtss = res::gtgt_sprite_size;
             sf::Vector2i pos{
                 rand() % (x - tgtss) + tgtss,
                 rand() % (y - tgtss) + tgtss
@@ -38,13 +40,20 @@ int main()
                 window.close();
         if(winhandle.is_should_close())
             window.close();
-        window.clear();
-        for(auto &e : entitys)
+
+        if(res::gis_rgba_important)
         {
-            e.update();
-            window.draw(e);
+            render_texture.clear(sf::Color::Transparent);
+            for(auto &e : entitys) { e.update(); render_texture.draw(e); }
+            render_texture.display();
+            winhandle.update_render(render_texture);
         }
-        window.display();
+        else
+        {
+            window.clear(sf::Color::Black);
+            for(auto &e : entitys) { e.update(); window.draw(e); }
+            window.display();
+        }
     }
     return 0;
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
@@ -9,12 +10,15 @@ using json = nlohmann::json;
 #include <filesystem>
 namespace fs = std::filesystem;
 
+#define inlstc inline static
+
 class res
 {
 private:
-    inline static const fs::path folder = "../res";
-    inline static float tgt_sprite_size = 0.f;
-    inline static sf::Vector2u window_size;
+    inlstc const fs::path folder = "../res";
+    inlstc float tgt_sprite_size = 0.f;
+    inlstc bool is_rgba_important = true;
+    inlstc sf::Vector2u window_size;
 public:
     res() = delete;
 
@@ -24,7 +28,7 @@ public:
         sf::Vector2i frame_size;
         bool is_top_down = true;
     };
-    inline static std::vector<Texture> textures;
+    inlstc std::vector<Texture> textures;
     
     template <typename T = unsigned int>
     requires (std::is_arithmetic_v<T>)
@@ -32,7 +36,10 @@ public:
     {
         return static_cast<sf::Vector2<T>>(window_size);
     }
+    inlstc const auto& gtgt_sprite_size = tgt_sprite_size;
+    inlstc const auto& gis_rgba_important = is_rgba_important;
 
-    static float get_tgt_sprite_size();
     static void load(sf::Vector2u window_size, float ratio = .1f);
 };
+
+#undef inlstc

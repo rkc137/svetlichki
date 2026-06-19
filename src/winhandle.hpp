@@ -10,7 +10,7 @@
 class Winhandle
 {
 public:
-    Winhandle(sf::RenderWindow &window, bool is_LWA_ALPHA = true);
+    Winhandle(sf::RenderWindow &window, bool is_LWA_ALPHA);
     ~Winhandle();
 
     Winhandle() = delete;

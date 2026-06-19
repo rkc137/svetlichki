@@ -5,7 +5,7 @@ Entity::Entity(const res::Texture &texture)
 {
     auto [x, y] = texture.frame_size;
     sprite.setOrigin(sf::Vector2f(x / 2, y / 2));
-    auto s = res::get_tgt_sprite_size() / std::max(x, y);
+    auto s = res::gtgt_sprite_size / std::max(x, y);
     sprite.setScale({s, s});
     state = State::moving;
     set_animation(0);

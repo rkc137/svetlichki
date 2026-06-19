@@ -24,7 +24,7 @@ private:
     sf::Sprite sprite;
     
     sf::Clock anim_clock;
-    sf::Time anim_delta_time = sf::seconds(0.5);
+    sf::Time anim_delta_time = sf::seconds(0.1);
     int anim_index = 0;
     unsigned int anim_step = 0;
 

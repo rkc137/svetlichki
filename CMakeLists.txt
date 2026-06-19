@@ -21,3 +21,16 @@ add_executable(svetlichki
 )
 
 target_link_libraries(svetlichki PRIVATE SFML::Graphics SFML::Window SFML::System)
+
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    target_link_options(svetlichki PRIVATE -mwindows -static)
+    set_target_properties(svetlichki PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
+    )
+    add_custom_command(TARGET svetlichki POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_RUNTIME_DLLS:svetlichki>
+            $<TARGET_FILE_DIR:svetlichki>
+        COMMAND_EXPAND_LISTS
+    )
+endif()

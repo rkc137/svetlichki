@@ -31,6 +31,7 @@ private:
 
     enum class State {
         rest,
+        perdesh,
         moving
     } state;
     sf::Vector2f tgt_point{1.f, 1.f};

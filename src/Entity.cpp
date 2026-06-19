@@ -18,6 +18,7 @@ void Entity::update()
 {
     switch(state)
     {
+    case State::perdesh:
     case State::rest:
         if(resting_clock.getElapsedTime() < resting_time)
             break;

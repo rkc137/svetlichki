@@ -22,6 +22,8 @@ int main()
     {
         MessageBoxA(window.getNativeHandle(), e.what(), "Ошибочка в конфиге", MB_OK | MB_ICONERROR);
     }
+    if(res::textures.empty())
+        return 1;
 
     window.setFramerateLimit(60);
     auto winhandle = Winhandle{window, res::is_rgba_important};

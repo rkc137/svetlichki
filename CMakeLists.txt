@@ -8,6 +8,13 @@ if(DEFINED ENV{CMAKE_LIBS_DIR})
     set(FETCHCONTENT_BASE_DIR "$ENV{CMAKE_LIBS_DIR}")
 endif()
 
+FetchContent_Declare(
+    battery-embed
+    GIT_REPOSITORY https://github.com/batterycenter/embed.git
+    GIT_TAG v1.2.19
+)
+FetchContent_MakeAvailable(battery-embed)
+
 find_package(SFML REQUIRED COMPONENTS Graphics Window System)
 find_package(nlohmann_json CONFIG REQUIRED)
 
@@ -19,13 +26,14 @@ add_executable(svetlichki
     src/Entity.cpp
     src/res.cpp
 )
+b_embed(svetlichki res/icon.png)
 
 target_link_libraries(svetlichki PRIVATE SFML::Graphics SFML::Window SFML::System)
 # set_target_properties(svetlichki PROPERTIES
 #     WIN32_EXECUTABLE TRUE
 # )
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    target_link_options(svetlichki PRIVATE -mwindows -static)
+    target_link_options(svetlichki PRIVATE -mwindows -static -DB_PRODUCTION_MODE=ON)
     set_target_properties(svetlichki PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
     )

@@ -49,9 +49,14 @@ void Entity::set_animation(int animation)
         if(static bool is_pass_error_msg = true; is_pass_error_msg)
         {
             is_pass_error_msg = false;
+#ifndef NDEBUG
+            throw std::runtime_error("animations error");
+#else
             std::cerr << "animations error\n";
+#endif
         }
         anim_index = 0;
+        return;
     }
 
     anim_index = animation;

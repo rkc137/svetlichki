@@ -5,9 +5,10 @@ float res::get_tgt_sprite_size()
     return tgt_sprite_size;
 }
 
-void res::load(sf::Vector2u window_size, float ratio)
+void res::load(sf::Vector2u wsize, float ratio)
 {
-    auto [w, h] = window_size;
+    window_size = wsize;
+    auto [w, h] = static_cast<sf::Vector2f>(window_size);
     tgt_sprite_size = std::max(w, h) * ratio;
 
     std::ifstream ifs(folder / "config.json");
@@ -36,6 +37,9 @@ void res::load(sf::Vector2u window_size, float ratio)
         if(auto it = image.find("is_pixel"); it != image.end())
             is_smooth = it->get<bool>();
         texture.setSmooth(is_smooth);
+
+        if(auto it = image.find("is_top_down"); it != image.end())
+            texture.is_top_down = it->get<bool>();
         
         textures.push_back(std::move(texture));
     }

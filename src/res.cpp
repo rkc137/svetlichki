@@ -1,11 +1,10 @@
 #include "res.hpp"
 
 
-void res::load(sf::Vector2u wsize, float ratio)
+void res::load(sf::Vector2u wsize)
 {
     window_size = wsize;
-    auto [w, h] = static_cast<sf::Vector2f>(window_size);
-    tgt_sprite_size = std::max(w, h) * ratio;
+    auto [w, h] = get_wsize<float>();
 
     std::ifstream ifs(folder / "config.json");
     if(!ifs.is_open())
@@ -14,6 +13,13 @@ void res::load(sf::Vector2u wsize, float ratio)
 
     if(auto it = config.find("is_rgba_important"); it != config.end())
         is_rgba_important = it->get<bool>();
+
+    if(auto it = config.find("ratio"); it != config.end())
+        sprite_ratio = it->get<float>();
+    tgt_sprite_size = std::max(w, h) * sprite_ratio;
+
+    if(auto it = config.find("count"); it != config.end())
+        entitys_count = it->get<float>();
 
     for(auto &image : config["images"])
     {

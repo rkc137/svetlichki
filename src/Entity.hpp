@@ -11,12 +11,11 @@ public:
     ~Entity() = default;
 
     void update();
-    void set_animation(int animation);
-
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 protected:
     void animation_update();
+    void set_animation(int animation);
 
 private:
     const res::Texture &texture;

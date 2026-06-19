@@ -13,10 +13,18 @@ int main()
         sf::VideoMode::getFullscreenModes().front(),
         "svetlichki", sf::Style::None
     );
-    res::load(window.getSize());
+    
+    try
+    {
+        res::load(window.getSize());
+    }
+    catch(const json::exception& e)
+    {
+        MessageBoxA(window.getNativeHandle(), e.what(), "Ошибочка", MB_OK | MB_ICONERROR);
+    }
 
     window.setFramerateLimit(60);
-    auto winhandle = Winhandle{window, res::gis_rgba_important};
+    auto winhandle = Winhandle{window, res::is_rgba_important};
     sf::RenderTexture render_texture{sf::VideoMode::getFullscreenModes().front().size};
     auto& render_target = window;
 
@@ -24,11 +32,10 @@ int main()
     {
         auto [x, y] = static_cast<sf::Vector2i>(window.getSize());
         for(auto &texture : res::textures)
-        for(int i = 0; i < texture.animations_lengths.size(); i++)
+        for(int i = 0; i < res::entitys_count; i++)
         {
             auto& e = entitys.emplace_back(texture);
-            e.set_animation(i);
-            int tgtss = res::gtgt_sprite_size;
+            int tgtss = res::tgt_sprite_size;
             sf::Vector2i pos{
                 rand() % (x - tgtss) + tgtss,
                 rand() % (y - tgtss) + tgtss
@@ -45,7 +52,7 @@ int main()
         if(winhandle.is_should_close())
             window.close();
 
-        if(res::gis_rgba_important)
+        if(res::is_rgba_important)
         {
             render_texture.clear(sf::Color::Transparent);
             for(auto &e : entitys)

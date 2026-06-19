@@ -7,8 +7,11 @@ Entity::Entity(const res::Texture &texture)
     sprite.setOrigin(sf::Vector2f(x / 2, y / 2));
     auto s = res::tgt_sprite_size / std::max(x, y);
     sprite.setScale({s, s});
-    state = State::rest;
-    set_animation(0);
+    state = State::moving;
+    tgt_point = {
+        static_cast<float>(rand() % res::get_wsize<int>().x),
+        static_cast<float>(rand() % res::get_wsize<int>().y)
+    };
 }
 
 void Entity::update()
@@ -31,6 +34,7 @@ void Entity::update()
         {
             resting_clock.restart();
             state = State::rest;
+            resting_time = sf::seconds(rand() % 10);
         }
         move(tgt.normalized() * 1.f);
         if(texture.is_top_down)

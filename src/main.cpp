@@ -20,7 +20,7 @@ int main()
     }
     catch(const json::exception& e)
     {
-        MessageBoxA(window.getNativeHandle(), e.what(), "Ошибочка", MB_OK | MB_ICONERROR);
+        MessageBoxA(window.getNativeHandle(), e.what(), "Ошибочка в конфиге", MB_OK | MB_ICONERROR);
     }
 
     window.setFramerateLimit(60);

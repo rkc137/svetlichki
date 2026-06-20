@@ -13,7 +13,7 @@ Desktop pets that wander around your screen on top of everything :D
 To close just click the tray icon.
 
 ## Download
-download last version for [windows](https://github.com/rkc137/svetlichki/releases/latest)
+download last version for [windows](https://github.com/rkc137/svetlichki/releases/latest/download/svetlichki.zip)
 
 ## Config
 `res/config.json`

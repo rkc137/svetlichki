@@ -8,10 +8,8 @@ Entity::Entity(const res::Texture &texture)
     auto s = res::tgt_sprite_size / std::max(x, y);
     sprite.setScale({s, s});
     state = State::moving;
-    tgt_point = {
-        static_cast<float>(rand() % res::get_wsize<int>().x),
-        static_cast<float>(rand() % res::get_wsize<int>().y)
-    };
+    auto [wx, wy] = res::get_wsize<float>();
+    tgt_point = { get_rand(wx), get_rand(wy) };
 }
 
 void Entity::update()
@@ -23,8 +21,8 @@ void Entity::update()
         if(resting_clock.getElapsedTime() < resting_time)
             break;
         tgt_point = {
-            static_cast<float>(rand() % res::get_wsize<int>().x),
-            static_cast<float>(rand() % res::get_wsize<int>().y)
+            get_rand(res::get_wsize<float>().x),
+            get_rand(res::get_wsize<float>().y)
         };
         state = State::moving;
     break;
@@ -34,8 +32,9 @@ void Entity::update()
         if(tgt.length() < 1.f)
         {
             resting_clock.restart();
-            state = State::rest;
-            resting_time = sf::seconds(rand() % 10);
+            static constexpr std::array idle_states = {State::perdesh, State::rest};
+            state = idle_states[get_rand(idle_states.size())];
+            resting_time = sf::seconds(get_rand(15));
         }
         move(tgt.normalized() * 1.f);
         if(texture.is_top_down)

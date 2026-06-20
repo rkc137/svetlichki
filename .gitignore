@@ -1,4 +1,5 @@
 build
 .vscode
-res
+res/*
+!res/icon.png
 bin

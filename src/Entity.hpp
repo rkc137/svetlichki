@@ -25,6 +25,7 @@ private:
 
     sf::Clock anim_clock;
     sf::Clock resting_clock;
+    sf::Clock moving_clock;
     sf::Time anim_time = sf::seconds(0.1);
     sf::Time resting_time = sf::seconds(3.5);
     int anim_index = 0;

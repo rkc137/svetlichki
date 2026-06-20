@@ -4,11 +4,12 @@ Entity::Entity(const res::Texture &texture)
  : texture(texture), sprite(texture, {{0, 0}, {texture.frame_size.x, texture.frame_size.y}})
 {
     auto [x, y] = texture.frame_size;
-    sprite.setOrigin(sf::Vector2f(x / 2, y / 2));
     auto s = res::tgt_sprite_size / std::max(x, y);
+    auto [wx, wy] = res::get_wsize<float>();
+
+    sprite.setOrigin(sf::Vector2f(x / 2, y / 2));
     sprite.setScale({s, s});
     state = State::moving;
-    auto [wx, wy] = res::get_wsize<float>();
     tgt_point = { get_rand(wx), get_rand(wy) };
     setPosition({ get_rand(wx), get_rand(wy) });
 }
@@ -26,6 +27,7 @@ void Entity::update()
             get_rand(res::get_wsize<float>().y)
         };
         state = State::moving;
+        moving_clock.restart();
     break;
     case State::moving:
     {
@@ -35,7 +37,10 @@ void Entity::update()
             resting_clock.restart();
             static constexpr std::array idle_states = {State::perdesh, State::rest};
             state = idle_states[get_rand(idle_states.size() - 1)];
-            resting_time = sf::seconds(get_rand(5) + get_rand(1) * 15);
+            resting_time = sf::seconds(
+                moving_clock.getElapsedTime().asSeconds() / 2 +
+                get_rand(1, 10)
+            );
         }
         move(tgt.normalized() * 1.f);
         if(texture.is_top_down)

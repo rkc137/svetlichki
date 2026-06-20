@@ -18,9 +18,9 @@ int main()
     {
         res::load(window.getSize());
     }
-    catch(const json::exception& e)
+    catch(const std::exception& e)
     {
-        MessageBoxA(window.getNativeHandle(), e.what(), "Ошибочка в конфиге", MB_OK | MB_ICONERROR);
+        MessageBoxA(window.getNativeHandle(), e.what(), "config :(", MB_OK | MB_ICONERROR);
     }
     if(res::textures.empty())
         return 1;

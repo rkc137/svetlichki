@@ -15,8 +15,26 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(battery-embed)
 
-find_package(SFML REQUIRED COMPONENTS Graphics Window System)
-find_package(nlohmann_json CONFIG REQUIRED)
+
+option(USE_FETCHCONTENT "fetching libs" FALSE)
+if(USE_FETCHCONTENT)
+    FetchContent_Declare(
+        SFML
+        GIT_REPOSITORY https://github.com/SFML/SFML.git
+        GIT_TAG 3.0.2
+    )
+    FetchContent_MakeAvailable(SFML)
+
+    FetchContent_Declare(
+        nlohmann_json
+        GIT_REPOSITORY https://github.com/nlohmann/json.git
+        GIT_TAG v3.11.3
+    )
+    FetchContent_MakeAvailable(nlohmann_json)
+else()
+    find_package(SFML REQUIRED COMPONENTS Graphics Window System)
+    find_package(nlohmann_json CONFIG REQUIRED)
+endif()
 
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 

@@ -10,6 +10,7 @@ Entity::Entity(const res::Texture &texture)
     state = State::moving;
     auto [wx, wy] = res::get_wsize<float>();
     tgt_point = { get_rand(wx), get_rand(wy) };
+    setPosition({ get_rand(wx), get_rand(wy) });
 }
 
 void Entity::update()
@@ -33,8 +34,8 @@ void Entity::update()
         {
             resting_clock.restart();
             static constexpr std::array idle_states = {State::perdesh, State::rest};
-            state = idle_states[get_rand(idle_states.size())];
-            resting_time = sf::seconds(get_rand(15));
+            state = idle_states[get_rand(idle_states.size() - 1)];
+            resting_time = sf::seconds(get_rand(5) + get_rand(1) * 15);
         }
         move(tgt.normalized() * 1.f);
         if(texture.is_top_down)

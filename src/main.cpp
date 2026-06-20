@@ -31,20 +31,9 @@ int main()
     auto& render_target = window;
 
     std::vector<Entity> entitys;
-    {
-        auto [x, y] = static_cast<sf::Vector2i>(window.getSize());
-        for(auto &texture : res::textures)
+    for(auto &texture : res::textures)
         for(int i = 0; i < res::entitys_count; i++)
-        {
-            auto& e = entitys.emplace_back(texture);
-            int tgtss = res::tgt_sprite_size;
-            sf::Vector2i pos{
-                rand() % (x - tgtss) + tgtss,
-                rand() % (y - tgtss) + tgtss
-            };
-            e.setPosition(static_cast<sf::Vector2f>(pos));
-        }
-    }
+            entitys.emplace_back(texture);
 
     while(window.isOpen())
     {

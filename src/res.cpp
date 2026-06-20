@@ -1,6 +1,13 @@
 #include "res.hpp"
 
 
+template <typename T, typename U = T>
+void set_if_find(json &json_data, T& data, std::string_view name)
+{
+    if(auto it = json_data.find(name); it != json_data.end())
+        data = it->get<U>();
+}
+
 void res::load(sf::Vector2u wsize)
 {
     window_size = wsize;
@@ -11,15 +18,11 @@ void res::load(sf::Vector2u wsize)
         throw std::runtime_error("failed to open config");
     auto config = json::parse(ifs);
 
-    if(auto it = config.find("is_rgba_important"); it != config.end())
-        is_rgba_important = it->get<bool>();
-
-    if(auto it = config.find("ratio"); it != config.end())
-        sprite_ratio = it->get<float>();
-    tgt_sprite_size = std::max(w, h) * sprite_ratio;
-
-    if(auto it = config.find("count"); it != config.end())
-        entitys_count = it->get<float>();
+    set_if_find(config, transparent, "transparent");
+    set_if_find(config, is_rgba_important, "is_rgba_important");
+    set_if_find(config, entitys_count, "count");
+    set_if_find(config, sprite_ratio, "ratio");
+    tgt_sprite_size =   std::max(w, h) * sprite_ratio;
 
     if(auto images = config.find("images"); images == config.end() || images->size() == 0)
         throw std::runtime_error("images is empty");

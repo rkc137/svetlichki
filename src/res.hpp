@@ -22,6 +22,7 @@ public:
     inlstc float sprite_ratio = .1f;
     inlstc bool is_rgba_important = true;
     inlstc int entitys_count = 3;
+    inlstc std::uint8_t transparent = 255;
 
     res() = delete;
 

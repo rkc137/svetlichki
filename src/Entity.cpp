@@ -7,6 +7,7 @@ Entity::Entity(const res::Texture &texture)
     auto s = res::tgt_sprite_size / std::max(x, y);
     auto [wx, wy] = res::get_wsize<float>();
 
+    sprite.setColor({255, 255, 255, res::transparent});
     sprite.setOrigin(sf::Vector2f(x / 2, y / 2));
     sprite.setScale({s, s});
     state = State::moving;

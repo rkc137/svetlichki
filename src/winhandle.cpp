@@ -37,7 +37,7 @@ HICON load_icon()
     void* bits;
     HBITMAP hbmp = CreateDIBSection(dc, &bmi, DIB_RGB_COLORS, &bits, 0, 0);
     ReleaseDC(nullptr, dc);
-    
+
     // SFML is RGBA, WinAPI is BGRA
     const auto* src = img.getPixelsPtr();
     auto* dst = static_cast<uint8_t*>(bits);

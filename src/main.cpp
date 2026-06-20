@@ -13,7 +13,7 @@ int main()
         sf::VideoMode::getFullscreenModes().front(),
         "svetlichki", sf::Style::None
     );
-    
+
     try
     {
         res::load(window.getSize());

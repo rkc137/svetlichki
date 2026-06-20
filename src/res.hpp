@@ -32,7 +32,7 @@ public:
         bool is_top_down = true;
     };
     inlstc std::vector<Texture> textures;
-    
+
     template <typename T = unsigned int>
     requires (std::is_arithmetic_v<T>)
     static sf::Vector2<T> get_wsize()

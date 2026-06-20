@@ -21,7 +21,7 @@ private:
     const res::Texture &texture;
     bool is_sprite_reverse = false;
     sf::Sprite sprite;
-    
+
     sf::Clock anim_clock;
     sf::Clock resting_clock;
     sf::Time anim_time = sf::seconds(0.2);

@@ -27,7 +27,7 @@ void res::load(sf::Vector2u wsize)
         if(!texture.loadFromFile(folder / image["texture_name"].get<std::string>()))
             throw std::runtime_error("failed to open texture");
 
-        
+
         if(auto size = image["frame_size"]; size.size() != 2)
             throw std::runtime_error("wrong amount of arguments in frame_size");
         else
@@ -35,9 +35,9 @@ void res::load(sf::Vector2u wsize)
                 size[0].get<int>(),
                 size[1].get<int>()
             };
-        
+
         texture.animations_lengths = image["anim_lens"].get<std::vector<int>>();
-        
+
         bool is_smooth = true;
         if(auto it = image.find("is_pixel"); it != image.end())
             is_smooth = it->get<bool>();
@@ -45,7 +45,7 @@ void res::load(sf::Vector2u wsize)
 
         if(auto it = image.find("is_top_down"); it != image.end())
             texture.is_top_down = it->get<bool>();
-        
+
         textures.push_back(std::move(texture));
     }
 }

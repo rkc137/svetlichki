@@ -5,7 +5,8 @@
 LRESULT CALLBACK TrayProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp,
                            UINT_PTR, DWORD_PTR data)
 {
-    *reinterpret_cast<bool*>(data) = msg == WM_APP + 1 && lp == WM_LBUTTONUP;
+    if(msg == WM_APP + 1 && lp == WM_LBUTTONUP)
+        *reinterpret_cast<bool*>(data) = true;
     return DefSubclassProc(hwnd, msg, wp, lp);
 }
 

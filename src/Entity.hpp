@@ -14,6 +14,8 @@ public:
     void update();
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
+    inline static sf::Vector2f mouse_pos;
+
 protected:
     void animation_update();
     void set_animation(int animation);

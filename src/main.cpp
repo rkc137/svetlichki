@@ -42,6 +42,8 @@ int main()
         if(winhandle.is_should_close())
             window.close();
 
+        Entity::mouse_pos = static_cast<sf::Vector2f>(sf::Mouse::getPosition());
+
         if(res::is_rgba_important)
         {
             render_texture.clear(sf::Color::Transparent);

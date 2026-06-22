@@ -14,7 +14,7 @@ bool Winhandle::is_should_close()
     return is_closing;
 }
 
-Winhandle::Winhandle(sf::RenderWindow &window, bool is_LWAA) : window(window), is_LWA_ALPHA(is_LWAA)
+Winhandle::Winhandle(sf::RenderWindow &window, bool is_LWAA) : is_LWA_ALPHA(is_LWAA), window(window)
 {
     HWND hwnd = window.getNativeHandle();
     // oreder of these calls is important for some reason
@@ -69,7 +69,7 @@ void Winhandle::update_render(sf::RenderTexture& rt)
     // SFML is RGBA, WinAPI is BGRA
     const auto* src = img.getPixelsPtr();
     auto* dst = static_cast<uint8_t*>(bits);
-    for(size_t i = 0; i < w * h; i++)
+    for(int i = 0; i < w * h; i++)
     {
         auto i4 = i * 4;
         dst[i4 + 0] = src[i4 + 2]; // B

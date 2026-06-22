@@ -28,7 +28,6 @@ int main()
     window.setFramerateLimit(60);
     auto winhandle = Winhandle{window, res::is_rgba_important};
     sf::RenderTexture render_texture{sf::VideoMode::getFullscreenModes().front().size};
-    auto& render_target = window;
 
     std::vector<Entity> entitys;
     for(auto &texture : res::textures)

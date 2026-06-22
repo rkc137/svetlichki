@@ -84,7 +84,7 @@ void Entity::animation_update()
 
 void Entity::set_animation(int animation)
 {
-    if(0 > animation || animation >= texture.animations_lengths.size())
+    if(0 > animation || static_cast<size_t>(animation) >= texture.animations_lengths.size())
     {
         if(static bool is_pass_error_msg = true; is_pass_error_msg)
         {

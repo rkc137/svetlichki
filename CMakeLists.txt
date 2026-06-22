@@ -40,10 +40,12 @@ add_executable(svetlichki
     res/resource.rc
 )
 
+target_compile_options(svetlichki PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
 target_link_libraries(svetlichki PRIVATE SFML::Graphics SFML::Window SFML::System)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    target_link_options(svetlichki PRIVATE -mwindows -static)
+    add_compile_options(-O2)
+    target_link_options(svetlichki PRIVATE -mwindows)
     set_target_properties(svetlichki PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
     )

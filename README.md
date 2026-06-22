@@ -53,7 +53,7 @@ for each texture:
 to build you need installed [SFML](https://sfml-dev.org) and [nlohmanns json](https://json.nlohmann.me/) or just provide USE_FETCHCONTENT on build.
 
 ```
-cmake -B build -DCMAKE_BUILD_TYPE=Release cmake -B build -DUSE_FETCHCONTENT=ON
+cmake -B build -DCMAKE_BUILD_TYPE=Release -DUSE_FETCHCONTENT=ON
 cmake --build build --config Release
 ```
 

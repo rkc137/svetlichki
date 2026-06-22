@@ -17,6 +17,14 @@ Entity::Entity(const res::Texture &texture)
 
 void Entity::update()
 {
+    auto dmpos = (static_cast<sf::Vector2f>(sf::Mouse::getPosition()) - getPosition()).length();
+    auto color = sprite.getColor();
+    if(auto len = res::fade_radius; dmpos < len)
+        color.a = static_cast<uint8_t>(res::transparent * std::pow(dmpos / len, 3));
+    else
+        color.a = res::transparent;
+    sprite.setColor(color);
+
     switch(state)
     {
     case State::perdesh:

@@ -12,6 +12,7 @@ void res::load(sf::Vector2u wsize)
 {
     window_size = wsize;
     auto [w, h] = get_wsize<float>();
+    auto maxwsize = std::max(w, h);
 
     std::ifstream ifs(folder / "config.json");
     if(!ifs.is_open())
@@ -22,7 +23,9 @@ void res::load(sf::Vector2u wsize)
     set_if_find(config, is_rgba_important, "is_rgba_important");
     set_if_find(config, entitys_count, "count");
     set_if_find(config, sprite_ratio, "ratio");
-    tgt_sprite_size =   std::max(w, h) * sprite_ratio;
+    set_if_find(config, fade_ratio, "fade");
+    tgt_sprite_size = maxwsize * sprite_ratio;
+    fade_radius = maxwsize * fade_ratio;
 
     if(auto images = config.find("images"); images == config.end() || images->size() == 0)
         throw std::runtime_error("images is empty");

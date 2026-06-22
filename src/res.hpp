@@ -18,6 +18,8 @@ private:
     inlstc const fs::path folder = "../res";
     inlstc sf::Vector2u window_size;
 public:
+    inlstc float fade_ratio = 0.1f;
+    inlstc float fade_radius = 0.f;
     inlstc float tgt_sprite_size = 0.f;
     inlstc float sprite_ratio = .1f;
     inlstc bool is_rgba_important = true;

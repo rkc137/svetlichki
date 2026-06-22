@@ -24,6 +24,8 @@ void res::load(sf::Vector2u wsize)
     set_if_find(config, entitys_count, "count");
     set_if_find(config, sprite_ratio, "ratio");
     set_if_find(config, fade_ratio, "fade");
+    if(!sprite_ratio || !entitys_count || !transparent)
+        throw std::runtime_error("one of important variables is zero");
     tgt_sprite_size = maxwsize * sprite_ratio;
     fade_radius = maxwsize * fade_ratio;
 

@@ -27,4 +27,5 @@ private:
     bool is_LWA_ALPHA = true;
     bool is_closing = false;
     sf::RenderWindow &window;
+    const unsigned IDI_ICON1 = 1;
 };

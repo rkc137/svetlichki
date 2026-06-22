@@ -1,5 +1,6 @@
 build
 .vscode
 res/*
-!res/icon.png
+!res/icon.ico
+!res/resource.rc
 bin

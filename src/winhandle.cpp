@@ -1,6 +1,5 @@
 #include "winhandle.hpp"
 
-#include "battery/embed.hpp"
 
 LRESULT CALLBACK TrayProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp,
                            UINT_PTR, DWORD_PTR data)
@@ -13,55 +12,6 @@ LRESULT CALLBACK TrayProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp,
 bool Winhandle::is_should_close()
 {
     return is_closing;
-}
-
-HICON load_icon()
-{
-    sf::Image img{
-        b::embed<"res/icon.png">().data(),
-        b::embed<"res/icon.png">().size()
-    };
-    auto [w, h] = static_cast<sf::Vector2i>(img.getSize());
-
-    BITMAPINFO bmi = {
-        .bmiHeader = {
-            .biSize = sizeof(BITMAPINFOHEADER),
-            .biWidth = w,
-            .biHeight = -h,
-            .biPlanes = 1,
-            .biBitCount = 32,
-            .biCompression = BI_RGB
-        }
-    };
-
-    HDC dc = GetDC(nullptr);
-    void* bits;
-    HBITMAP hbmp = CreateDIBSection(dc, &bmi, DIB_RGB_COLORS, &bits, 0, 0);
-    ReleaseDC(nullptr, dc);
-
-    // SFML is RGBA, WinAPI is BGRA
-    const auto* src = img.getPixelsPtr();
-    auto* dst = static_cast<uint8_t*>(bits);
-    for(size_t i = 0; i < w * h; i++)
-    {
-        auto i4 = i * 4;
-        dst[i4 + 0] = src[i4 + 2]; // B
-        dst[i4 + 1] = src[i4 + 1]; // G
-        dst[i4 + 2] = src[i4 + 0]; // R
-        dst[i4 + 3] = src[i4 + 3]; // A
-    }
-
-    ICONINFO ii = {
-        .fIcon = TRUE,
-        .hbmMask = CreateBitmap(w, h, 1, 1, nullptr),
-        .hbmColor = hbmp
-    };
-    HICON hIcon = CreateIconIndirect(&ii);
-
-    DeleteObject(hbmp);
-    DeleteObject(ii.hbmMask);
-
-    return hIcon;
 }
 
 Winhandle::Winhandle(sf::RenderWindow &window, bool is_LWAA) : window(window), is_LWA_ALPHA(is_LWAA)
@@ -83,7 +33,7 @@ Winhandle::Winhandle(sf::RenderWindow &window, bool is_LWAA) : window(window), i
         .uID = 1,
         .uFlags = NIF_ICON | NIF_TIP | NIF_MESSAGE,
         .uCallbackMessage = WM_APP + 1,
-        .hIcon = load_icon()
+        .hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON1))
     };
     Shell_NotifyIcon(NIM_ADD, &nid);
 }

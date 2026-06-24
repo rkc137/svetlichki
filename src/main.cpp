@@ -6,7 +6,7 @@
 int main();
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) { return main(); }
 
-int main()
+int run()
 {
     FreeConsole();
     sf::RenderWindow window(
@@ -65,6 +65,18 @@ int main()
             }
             window.display();
         }
+    }
+    return 0;
+}
+
+int main()
+{
+    try
+    {
+        return run();
+    } catch (std::exception &e) {
+        MessageBoxA(nullptr, e.what(), "Error", MB_OK | MB_ICONERROR);
+        return 1;
     }
     return 0;
 }

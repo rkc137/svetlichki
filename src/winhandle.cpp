@@ -1,5 +1,7 @@
 #include "winhandle.hpp"
 
+namespace Transparent
+{
 
 LRESULT CALLBACK TrayProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp,
                            UINT_PTR, DWORD_PTR data)
@@ -91,4 +93,6 @@ void Winhandle::update_render(sf::RenderTexture& rt)
     DeleteObject(hbmp);
     DeleteDC(memDC);
     ReleaseDC(nullptr, screenDC);
+}
+
 }

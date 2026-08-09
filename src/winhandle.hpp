@@ -7,6 +7,9 @@
 #include <commctrl.h>
 #pragma comment(lib, "comctl32.lib")
 
+namespace Transparent
+{
+
 class Winhandle
 {
 public:
@@ -29,3 +32,5 @@ private:
     sf::RenderWindow &window;
     const unsigned IDI_ICON1 = 1;
 };
+
+}

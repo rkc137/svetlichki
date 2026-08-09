@@ -2,9 +2,9 @@
 - [What?](#what)
 - [Download](#download)
 - [Config](#config)
-- [Build](#Build)
+- [Build](#build)
 
-## What
+## What?
 
 Desktop pets that wander around your screen on top of everything :D
 
@@ -21,6 +21,7 @@ download last version for [windows](https://github.com/rkc137/svetlichki/release
 ```json
 {
     "ratio": 0.04,
+    "fade": 0.2,
     "count": 7,
     "transparent": 150,
     "images": [
@@ -35,7 +36,7 @@ download last version for [windows](https://github.com/rkc137/svetlichki/release
 ```
 
 - `ratio`: sprite size relative to screen size
-- `fade`: fade zone size relative to screen size (0 for nonew)
+- `fade`: fade zone size relative to screen size (0 for none)
 - `count`: how many of each texture to spawn
 - `transparent`: sprite alpha (0-255)
 - `is_rgba_important`: `true` for real alpha-channel transparency (can cause big lags), `false` for a cheap colorkey mode (black = hole)

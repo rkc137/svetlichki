@@ -1,13 +1,5 @@
 #include "res.hpp"
 
-
-template <typename T, typename U = T>
-void set_if_find(json &json_data, T& data, std::string_view name)
-{
-    if(auto it = json_data.find(name); it != json_data.end())
-        data = it->get<U>();
-}
-
 void res::load(sf::Vector2u wsize)
 {
     window_size = wsize;
@@ -19,11 +11,17 @@ void res::load(sf::Vector2u wsize)
         throw std::runtime_error("failed to open config");
     auto config = json::parse(ifs);
 
-    set_if_find(config, transparent, "transparent");
-    set_if_find(config, is_rgba_important, "is_rgba_important");
-    set_if_find(config, entitys_count, "count");
-    set_if_find(config, sprite_ratio, "ratio");
-    set_if_find(config, fade_ratio, "fade");
+    auto set_if_find = [&config](auto &data, std::string name){
+        if(auto it = config.find(name); it != config.end())
+            data = it->get<std::decay_t<decltype(data)>>();
+    };
+
+    set_if_find(transparent, "transparent");
+    set_if_find(is_rgba_important, "is_rgba_important");
+    set_if_find(entitys_count, "count");
+    set_if_find(sprite_ratio, "ratio");
+    set_if_find(fade_ratio, "fade");
+
     if(!sprite_ratio || !entitys_count || !transparent)
         throw std::runtime_error("one of important variables is zero");
     tgt_sprite_size = maxwsize * sprite_ratio;

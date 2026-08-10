@@ -1,18 +1,20 @@
 #include <list>
 
-#include "winhandle.hpp"
+#include "RWindow.hpp"
 #include "Entity.hpp"
 
-int main();
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) { return main(); }
+// int main();
+// int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) { return main(); }
 
 int run()
 {
     FreeConsole();
-    sf::RenderWindow window(
+
+    auto window = Transparent::RWindow{
+        true,
         sf::VideoMode::getFullscreenModes().front(),
         "svetlichki", sf::Style::None
-    );
+    };
 
     try
     {
@@ -26,8 +28,6 @@ int run()
         return 1;
 
     window.setFramerateLimit(60);
-    auto winhandle = Transparent::Winhandle{window, res::is_rgba_important};
-    sf::RenderTexture render_texture{sf::VideoMode::getFullscreenModes().front().size};
 
     std::vector<Entity> entitys;
     for(auto &texture : res::textures)
@@ -39,32 +39,17 @@ int run()
         while(const auto event = window.pollEvent())
             if(event->is<sf::Event::Closed>())
                 window.close();
-        if(winhandle.is_should_close())
+        if(window.is_should_close())
             window.close();
 
         Entity::mouse_pos = static_cast<sf::Vector2f>(sf::Mouse::getPosition());
+        for(auto &e : entitys)
+            e.update();
 
-        if(res::is_rgba_important)
-        {
-            render_texture.clear(sf::Color::Transparent);
-            for(auto &e : entitys)
-            {
-                e.update();
-                render_texture.draw(e);
-            }
-            render_texture.display();
-            winhandle.update_render(render_texture);
-        }
-        else
-        {
-            window.clear(sf::Color::Black);
-            for(auto &e : entitys)
-            {
-                e.update();
-                window.draw(e);
-            }
-            window.display();
-        }
+        window.trclear();
+        for(auto &e : entitys)
+            window.trdraw(e);
+        window.trdisplay();
     }
     return 0;
 }

@@ -1,4 +1,4 @@
-#include "winhandle.hpp"
+#include "RWindow.hpp"
 
 namespace Transparent
 {
@@ -11,14 +11,44 @@ LRESULT CALLBACK TrayProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp,
     return DefSubclassProc(hwnd, msg, wp, lp);
 }
 
-bool Winhandle::is_should_close()
+bool RWindow::is_should_close()
 {
     return is_closing;
 }
 
-Winhandle::Winhandle(sf::RenderWindow &window, bool is_LWAA) : is_LWA_ALPHA(is_LWAA), window(window)
+void RWindow::trclear()
 {
-    HWND hwnd = window.getNativeHandle();
+    if(is_LWA_ALPHA)
+        render_texture.clear(sf::Color::Transparent);
+    else
+        clear(sf::Color::Black);
+}
+
+void RWindow::trdisplay()
+{
+    if(is_LWA_ALPHA)
+    {
+        render_texture.display();
+        update_render(render_texture);
+    }
+    else
+        display();
+}
+
+void RWindow::trdraw(const sf::Drawable& drawable, const sf::RenderStates& states)
+{
+    if(is_LWA_ALPHA)
+        render_texture.draw(drawable, states);
+    else
+        draw(drawable, states);
+}
+
+void RWindow::setup_transparent(bool is_LWA)
+{
+    is_LWA_ALPHA = is_LWA;
+    render_texture = sf::RenderTexture{getSize()};
+
+    HWND hwnd = getNativeHandle();
     // oreder of these calls is important for some reason
     SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
     SetWindowSubclass(hwnd, TrayProc, 0, reinterpret_cast<DWORD_PTR>(&is_closing));
@@ -40,13 +70,13 @@ Winhandle::Winhandle(sf::RenderWindow &window, bool is_LWAA) : is_LWA_ALPHA(is_L
     Shell_NotifyIcon(NIM_ADD, &nid);
 }
 
-Winhandle::~Winhandle()
+RWindow::~RWindow()
 {
     Shell_NotifyIcon(NIM_DELETE, &nid);
     DestroyIcon(nid.hIcon);
 }
 
-void Winhandle::update_render(sf::RenderTexture& rt)
+void RWindow::update_render(sf::RenderTexture& rt)
 {
     auto img = rt.getTexture().copyToImage();
     auto [w, h] = static_cast<sf::Vector2i>(img.getSize());
@@ -86,7 +116,7 @@ void Winhandle::update_render(sf::RenderTexture& rt)
     SIZE sz = {(LONG)w, (LONG)h};
     BLENDFUNCTION blend = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA};
     UpdateLayeredWindow(
-        window.getNativeHandle(),
+        getNativeHandle(),
         screenDC, nullptr, &sz, memDC, &ptSrc, 0, &blend, ULW_ALPHA
     );
 

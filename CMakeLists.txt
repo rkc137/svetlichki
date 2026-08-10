@@ -39,7 +39,7 @@ option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
 add_executable(svetlichki
     src/main.cpp
-    src/winhandle.cpp
+    src/RWindow.cpp
     src/Entity.cpp
     src/res.cpp
 

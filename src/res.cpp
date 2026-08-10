@@ -1,15 +1,28 @@
 #include "res.hpp"
 
+#include "battery/embed.hpp"
+
 void res::load(sf::Vector2u wsize)
 {
     window_size = wsize;
     auto [w, h] = get_wsize<float>();
     auto maxwsize = std::max(w, h);
 
-    std::ifstream ifs(folder / "config.json");
-    if(!ifs.is_open())
+    json config;
+    auto cpath = folder / "config.json";
+
+    if(!fs::exists(cpath))
+    {
+        if(std::ofstream ofs(cpath); !ofs.is_open())
+            throw std::runtime_error("failed to open config");
+        else
+            ofs << b::embed<"res/config.json">().str();
+    }
+
+    if(std::ifstream ifs(cpath); ifs.is_open())
+        config = json::parse(ifs);
+    else
         throw std::runtime_error("failed to open config");
-    auto config = json::parse(ifs);
 
     auto set_if_find = [&config](auto &data, std::string name){
         if(auto it = config.find(name); it != config.end())

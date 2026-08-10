@@ -3,4 +3,5 @@ build
 res/*
 !res/icon.ico
 !res/resource.rc
+!res/config.json
 bin

@@ -1,0 +1,14 @@
+{
+    "ratio": 0.04,
+    "fade": 0.1,
+    "count": 30,
+    "transparent": 210,
+    "images": [
+        {
+            "texture_name": "svetlichki.png",
+            "frame_size": [40, 40],
+            "anim_lens": [4, 7, 4],
+            "is_pixel": true
+        }
+    ]
+}

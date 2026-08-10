@@ -24,7 +24,7 @@ void res::load(sf::Vector2u wsize)
     else
         throw std::runtime_error("failed to open config");
 
-    auto set_if_find = [&config](auto &data, std::string name){
+    auto set_if_find = [&config](auto &data, std::string_view name){
         if(auto it = config.find(name); it != config.end())
             data = it->get<std::decay_t<decltype(data)>>();
     };

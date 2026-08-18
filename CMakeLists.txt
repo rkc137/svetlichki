@@ -4,9 +4,6 @@ set(CMAKE_CXX_STANDARD 23)
 
 set(FETCHCONTENT_UPDATES_DISCONNECTED OFF)
 include(FetchContent)
-if(DEFINED ENV{CMAKE_LIBS_DIR})
-    set(FETCHCONTENT_BASE_DIR "$ENV{CMAKE_LIBS_DIR}")
-endif()
 
 option(USE_FETCHCONTENT "use fetching for json and sfml" FALSE)
 if(USE_FETCHCONTENT)
@@ -35,11 +32,17 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(battery-embed)
 
+FetchContent_Declare(
+    SFTransparent
+    GIT_REPOSITORY https://github.com/rkc137/SFTransparent.git
+    GIT_TAG 5f8beee1dcbd8bf7e4e0c1eda6d8220ed61b2c9b
+)
+FetchContent_MakeAvailable(SFTransparent)
+
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
 add_executable(svetlichki
     src/main.cpp
-    src/RWindow.cpp
     src/Entity.cpp
     src/res.cpp
 
@@ -50,7 +53,7 @@ add_executable(svetlichki
 b_embed(${PROJECT_NAME} res/config.json)
 
 target_compile_options(svetlichki PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
-target_link_libraries(svetlichki PRIVATE SFML::Graphics SFML::Window SFML::System)
+target_link_libraries(svetlichki PRIVATE SFML::Graphics SFML::Window SFML::System SFTransparent)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     add_compile_options(-O2)

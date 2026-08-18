@@ -1,6 +1,8 @@
+#include <SFML/Graphics.hpp>
+#include <SFTransparent/RWindow.hpp>
+
 #include <list>
 
-#include "RWindow.hpp"
 #include "Entity.hpp"
 
 // int main();
